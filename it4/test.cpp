@@ -2,19 +2,11 @@
 #include <iostream>
 
 #include "state.h"
-/*
-std::ostream & operator << ( std::ostream & os, const State & obj)
-{
-    os << "Min: " << obj.getMin() << ", ";
-    os << "Col: " << obj.getColored() << ", ";
-    os << "Nodes: " << obj.getNodes() << std::endl;
-    
-    return os;
-}*/
 
 inline bool operator == (const State& lhs, const State& rhs)
 {
     if ( lhs.getMin()           !=      rhs.getMin()            ||
+         lhs.getGlobal()        !=      rhs.getGlobal()         ||
          lhs.getColored()       !=      rhs.getColored()        ||
          lhs.getNodes().size()  !=      rhs.getNodes().size()   )
         return false;
@@ -37,11 +29,11 @@ void testStateSerialization( void ) {
     
     std::cout << "Test: serialization:" << std::endl;
     
-    State s1(100, 20, { X, Y, Y, NONE, X, Y, X, X, NONE });
-    State s2(100, 10, { X, Y, Y, NONE, X, Y, X, X, NONE });
-    State s3(200, 20, { X, Y, Y, X, Y, X, X, NONE });
-    State s4(100, 20, { X, Y, Y, X, Y, X, X, NONE });
-    State s5(100, 20, { X, Y, Y, NONE, X, Y, X, X, NONE });
+    State s1(100, 100, 20, { X, Y, Y, NONE, X, Y, X, X, NONE });
+    State s2(100, 100, 10, { X, Y, Y, NONE, X, Y, X, X, NONE });
+    State s3(200, 100, 20, { X, Y, Y, X, Y, X, X, NONE });
+    State s4(100, 100, 20, { X, Y, Y, X, Y, X, X, NONE });
+    State s5(100, 100, 20, { X, Y, Y, NONE, X, Y, X, X, NONE });
     
     std::vector<int> serializedData1 = s1.serializeTask();
     std::vector<int> serializedData2 = s2.serializeTask();
@@ -64,6 +56,8 @@ void testStateSerialization( void ) {
     assert( s5 == s6 ); std::cout << " --> TEST 09 OK" << std::endl;
     assert( s5 != s7 ); std::cout << " --> TEST 10 OK" << std::endl;
     assert( s5 != s8 ); std::cout << " --> TEST 11 OK" << std::endl;
+    
+    std::cout << "ALL TESTS DONE" << std::endl;
 }
 
 int main ( int argc, char **argv ) {
